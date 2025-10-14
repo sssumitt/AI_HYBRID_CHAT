@@ -1,0 +1,15 @@
+[project]
+name = "ai-hybrid-chat"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.3"
+dependencies = [
+    "neo4j>=6.0.2",
+    "networkx>=3.5",
+    "openai>=2.3.0",
+    "pinecone>=7.3.0",
+    "python-dotenv>=1.1.1",
+    "pyvis>=0.3.2",
+    "tqdm>=4.67.1",
+]
