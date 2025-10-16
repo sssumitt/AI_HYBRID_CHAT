@@ -4,16 +4,19 @@ import time
 from tqdm import tqdm
 from openai import OpenAI
 from pinecone import Pinecone, ServerlessSpec
+from pathlib import Path
 # import config
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
+
 # -----------------------------
 # Config
 # -----------------------------
-DATA_FILE = "vietnam_travel_dataset.json"
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
+DATA_FILE = os.path.join(PROJECT_ROOT, "data", "vietnam_travel_dataset.json")
 BATCH_SIZE = 32
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

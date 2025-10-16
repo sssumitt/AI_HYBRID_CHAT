@@ -3,16 +3,18 @@ import os
 import json
 from dotenv import load_dotenv
 from neo4j import GraphDatabase, Driver, exceptions
+from pathlib import Path
 
 load_dotenv()
 
 # -------------
 # Configuration
 # -------------
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 NEO4J_URI = os.getenv("NEO4J_URI")
 NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
-DATA_FILE = "vietnam_travel_dataset.json"
+DATA_FILE = os.path.join(PROJECT_ROOT, "data", "vietnam_travel_dataset.json")
 
 # -------------
 # Cypher Functions
