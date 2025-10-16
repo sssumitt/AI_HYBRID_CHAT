@@ -90,6 +90,7 @@ async def _close_if_callable(obj: object):
                 await res
             return
 
+# Callable[[ArgTypes...], ReturnType]-> fn that is callable and takes ArgTypes and return ReturnType -> can be awaited
 async def with_retries(fn: Callable[..., asyncio.Future], *args, retries: int = 3, base_delay: float = 0.5, backoff: float = 2.0, **kwargs):
     """
     Generic retry helper for async callables.

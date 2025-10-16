@@ -10,4 +10,6 @@
 # PINECONE_INDEX_NAME = "vietnam-travel"
 # PINECONE_VECTOR_DIM = 1536       # adjust to embedding model used (text-embedding-3-large ~ 3072? check your model); we assume 1536 for common OpenAI models — change if needed.
 
+# UPSTASH_REDIS_URL=
+# UPSTASH_REDIS_TOKEN=
 # using .env for security purpose
