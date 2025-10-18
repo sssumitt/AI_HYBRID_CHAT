@@ -6,14 +6,17 @@ readme = "README.md"
 requires-python = ">=3.12.3"
 dependencies = [
     "asyncio>=4.0.0",
+    "fastapi>=0.119.0",
     "neo4j>=6.0.2",
     "networkx>=3.5",
     "openai>=2.3.0",
     "pinecone>=7.3.0",
+    "pydantic>=2.12.2",
     "python-dotenv>=1.1.1",
     "pyvis>=0.3.2",
     "tqdm>=4.67.1",
     "upstash-redis>=1.4.0",
+    "uvicorn>=0.37.0",
 ]
 [tool.setuptools.packages.find]
 where = ["src"]

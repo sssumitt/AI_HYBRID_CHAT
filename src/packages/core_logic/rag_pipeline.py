@@ -91,7 +91,7 @@ async def call_chat(prompt_messages: List[Dict[str, str]]) -> str:
         clients.aclient.chat.completions.create,
         model=CHAT_MODEL,
         messages=prompt_messages,
-        max_tokens=600,
+        max_tokens=1500,
         temperature=0.2
     )
     try:
