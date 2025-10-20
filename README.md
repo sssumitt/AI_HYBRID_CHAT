@@ -120,7 +120,7 @@ Install the project and all its dependencies in "editable" mode.
 This allows you to make changes to the source code without needing to reinstall.
 
 ```bash
-uv pip install -e ".[scripts,dev]"
+uv pip install -e .
 ```
 
 ---
