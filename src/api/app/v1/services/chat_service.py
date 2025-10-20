@@ -5,7 +5,6 @@ from packages.core_logic.rag_pipeline import (
     search_summary,
     call_chat,
 )
-# Update the import to the new prompt function
 from packages.core_logic.llm_prompts import build_prompt_with_history
 from packages.core_logic.config import TOP_K
 from ..schemas.chat import ChatRequest, ChatResponse

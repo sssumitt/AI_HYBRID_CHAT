@@ -53,6 +53,7 @@ async def pinecone_query(query_text: str, top_k: int = TOP_K) -> List[Dict[str, 
                 normalized.append(d)
             except Exception:
                 continue
+    log.info(f"Pinecone query returned {len(normalized)} matches for query: {query_text!r}")
     return normalized
 
 async def fetch_graph_context(node_ids: List[str]) -> List[Dict[str, Any]]:
@@ -69,7 +70,7 @@ async def fetch_graph_context(node_ids: List[str]) -> List[Dict[str, Any]]:
     async with clients.driver.session() as session:
         result = await session.run(q, node_ids=node_ids)
         facts = [record.data() async for record in result]
-    log.debug("Graph query returned %d facts", len(facts))
+    log.info("Graph query returned %d facts", len(facts))
     return facts
 
 async def search_summary(user_query: str, matches: List[Dict[str, Any]], facts: List[Dict[str, Any]]) -> str:

@@ -54,7 +54,7 @@ def build_prompt_with_history(user_query: str, summary: str, history: List[Dict[
         "**Instructions:**\n"
         "Your entire response MUST be structured in two parts, inside `<reasoning>` and `<itinerary>` tags.\n\n"
         "**Part 1: Your Reasoning (Internal Thought Process)**\n"
-        "Inside the `<reasoning>` tag, think step-by-step. Analyze the user's query, chat history, and the provided summary. "
+        "Inside the `<reasoning>` tag, think step-by-step.Each step should be seperated by a new line character.Analyze the user's query, chat history, and the provided summary. "
         "**Crucially, you must evaluate the logistics and travel time between locations.** For trips of 5 days or less, if the main locations are more than a 4-hour drive apart, you MUST recommend focusing on a single region to create a more enjoyable experience. State this conclusion clearly.\n\n"
         "**Part 2: The Final Itinerary (User-Facing Answer)**\n"
         "Inside the `<itinerary>` tag, write the final, user-facing response. This output should be friendly, clear, and based **only** on your conclusions from the `<reasoning>` part. \n"

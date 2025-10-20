@@ -88,7 +88,7 @@ def main():
     print(f"Preparing to upsert {len(items)} items to Pinecone...")
 
     for batch in tqdm(list(chunked(items, BATCH_SIZE)), desc="Uploading batches"):
-        ids = [item[0] for item in batch]
+        ids   = [item[0] for item in batch]
         texts = [item[1] for item in batch]
         metas = [item[2] for item in batch]
 

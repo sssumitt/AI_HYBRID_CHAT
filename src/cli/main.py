@@ -38,6 +38,9 @@ async def interactive_chat():
                 
                 # Generate (now with history)
                 prompt = build_prompt_with_history(query, summary, conversation_history)
+
+                print(f"\n=== Summary ===\n{summary}\n========================\n")
+
                 answer = await call_chat(prompt)
 
                 # --- Update and Display ---

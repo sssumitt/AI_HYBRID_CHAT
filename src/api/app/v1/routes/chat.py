@@ -8,7 +8,7 @@ router = APIRouter()
 @router.post("/chat", response_model=ChatResponse)
 async def handle_chat_request(
     request: ChatRequest,
-    chat_service: ChatService = Depends(ChatService) # <-- Dependency Injection
+    chat_service: ChatService = Depends(ChatService)
 ):
     """
     API endpoint for handling chat requests.
@@ -17,5 +17,4 @@ async def handle_chat_request(
     try:
         return await chat_service.create_itinerary(request)
     except Exception as e:
-        # You can add more specific error handling here later
         raise HTTPException(status_code=500, detail=str(e))
