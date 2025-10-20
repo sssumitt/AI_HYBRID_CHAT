@@ -153,7 +153,7 @@ python src/cli/main.py
 To serve the React frontend, run the FastAPI application using Uvicorn.
 
 ```bash
-uvicorn src.api.app.main:app --reload
+uv run uvicorn src.api.app.main:app --reload
 ```
 
 The API will be available at:
