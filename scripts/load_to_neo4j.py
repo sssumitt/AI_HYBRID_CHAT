@@ -10,10 +10,18 @@ load_dotenv()
 # -------------
 # Configuration
 # -------------
-PROJECT_ROOT = os.getenv("PROJECT_ROOT")
+PROJECT_ROOT = os.getenv("PROJECT_ROOT", ".")
 NEO4J_URI = os.getenv("NEO4J_URI")
 NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
+
+if not NEO4J_URI:
+    raise ValueError("NEO4J_URI environment variable is not set")
+if not NEO4J_USERNAME:
+    raise ValueError("NEO4J_USERNAME environment variable is not set")
+if not NEO4J_PASSWORD:
+    raise ValueError("NEO4J_PASSWORD environment variable is not set")
+
 DATA_FILE = os.path.join(PROJECT_ROOT, "data", "vietnam_travel_dataset.json")
 
 # -------------
@@ -62,10 +70,16 @@ def load_relationships_batch(tx, relationships_batch):
 
 def main():
     """Main function to connect to Neo4j and run the import."""
+    uri = NEO4J_URI
+    username = NEO4J_USERNAME
+    password = NEO4J_PASSWORD
+    if not uri or not username or not password:
+        raise ValueError("Neo4j environment variables (NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD) are not fully configured.")
+
     driver = None
     try:
         # Establish connection to the database
-        driver: Driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD))
+        driver = GraphDatabase.driver(uri, auth=(username, password))
         driver.verify_connectivity()
         print("Successfully connected to Neo4j.")
 

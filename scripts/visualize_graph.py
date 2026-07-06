@@ -12,6 +12,14 @@ load_dotenv()
 NEO4J_URI = os.getenv("NEO4J_URI")
 NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
+
+if not NEO4J_URI:
+    raise ValueError("NEO4J_URI environment variable is not set")
+if not NEO4J_USERNAME:
+    raise ValueError("NEO4J_USERNAME environment variable is not set")
+if not NEO4J_PASSWORD:
+    raise ValueError("NEO4J_PASSWORD environment variable is not set")
+
 NEO_BATCH_LIMIT = 500  # Max number of relationships to visualize
 
 # -------------
@@ -33,7 +41,7 @@ def fetch_subgraph(tx, limit):
 def build_pyvis_graph(records, output_html="graph_visualization.html"):
     """Builds and saves an interactive pyvis graph from Neo4j records."""
     print("Building interactive graph visualization...")
-    net = Network(height="900px", width="100%", notebook=False, directed=True, bgcolor="#222222", font_color="white")
+    net = Network(height="900px", width="100%", notebook=False, directed=True, bgcolor="#222222", font_color="white") # type: ignore
 
     # Define colors for different node types for better visualization
     color_map = {
@@ -80,9 +88,15 @@ def build_pyvis_graph(records, output_html="graph_visualization.html"):
 # -------------
 def main():
     """Main function to connect to Neo4j and generate the visualization."""
+    uri = NEO4J_URI
+    username = NEO4J_USERNAME
+    password = NEO4J_PASSWORD
+    if not uri or not username or not password:
+        raise ValueError("Neo4j environment variables (NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD) are not fully configured.")
+
     driver = None
     try:
-        driver: Driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD))
+        driver = GraphDatabase.driver(uri, auth=(username, password))
         driver.verify_connectivity()
         print("Successfully connected to Neo4j.")
 

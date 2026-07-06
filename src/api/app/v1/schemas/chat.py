@@ -11,3 +11,4 @@ class ChatResponse(BaseModel):
     answer: str
     source_ids: List[str]
     conversation_id: str
+    history: Optional[List[Dict[str, str]]] = None

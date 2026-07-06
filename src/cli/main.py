@@ -1,13 +1,7 @@
 import asyncio
 from packages.core_logic.clients import setup_clients, shutdown_clients
-from packages.core_logic.rag_pipeline import (
-    pinecone_query,
-    fetch_graph_context,
-    search_summary,
-    call_chat,
-)
-from packages.core_logic.llm_prompts import build_prompt_with_history
-from packages.core_logic.config import log, TOP_K
+from packages.core_logic.graph import app
+from packages.core_logic.config import log
 
 MAX_HISTORY_MESSAGES = 10
 
@@ -26,33 +20,36 @@ async def interactive_chat():
                 break
 
             try:
-                # --- The RAG pipeline is now a single conceptual block ---
-                
-                # Retrieve
-                matches = await pinecone_query(query, top_k=TOP_K)
-                match_ids = [m.get("id") for m in matches if m.get("id")]
-                graph_facts = await fetch_graph_context(match_ids)
-                
-                # Augment
-                summary = await search_summary(query, matches, graph_facts)
-                
-                # Generate (now with history)
-                prompt = build_prompt_with_history(query, summary, conversation_history)
+                # Prepare initial state for the LangGraph flow
+                from packages.core_logic.state import AgentState
+                state: AgentState = {
+                    "user_query": query,
+                    "history": conversation_history,
+                    "matches": [],
+                    "graph_facts": [],
+                    "summary": "",
+                    "draft_itinerary": "",
+                    "validation_feedback": None,
+                    "iteration_count": 0,
+                    "answer": "",
+                    "source_ids": []
+                }
 
-                print(f"\n=== Summary ===\n{summary}\n========================\n")
+                # Invoke the LangGraph workflow
+                result = await app.ainvoke(state, config={"recursion_limit": 15})
 
-                answer = await call_chat(prompt)
+                # Display RAG summary generated inside the retrieval stage
+                print(f"\n=== Summary ===\n{result.get('summary')}\n========================\n")
 
-                # --- Update and Display ---
-
+                # Display the final validated response
+                answer = result.get("answer", "")
                 print(f"\n=== Assistant Answer ===\n{answer}\n========================")
 
-                
-                # Add the user's query and the assistant's answer to the history
+                # Add user query and assistant response to history
                 conversation_history.append({"role": "user", "content": query})
                 conversation_history.append({"role": "assistant", "content": answer})
                 
-                # Add a limit to history (cost effective)
+                # Limit history to prevent excessive context size
                 conversation_history = conversation_history[-MAX_HISTORY_MESSAGES:]
 
             except Exception as e:

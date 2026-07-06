@@ -1,7 +1,9 @@
 # src/packages/core_logic/utils.py
 import asyncio
 import hashlib
-from typing import Callable
+from typing import Callable, Any, Awaitable, TypeVar
+
+_T = TypeVar("_T")
 
 # Use absolute imports for clarity and robustness
 from packages.core_logic.config import log, EMBED_MODEL
@@ -27,8 +29,8 @@ async def _close_if_callable(obj: object):
                 await res
             return
 
-async def with_retries(fn: Callable[..., asyncio.Future], *args, retries: int = 3, base_delay: float = 0.5, backoff: float = 2.0, **kwargs):
-    last_exc = None
+async def with_retries(fn: Callable[..., Any], *args: Any, retries: int = 3, base_delay: float = 0.5, backoff: float = 2.0, **kwargs: Any) -> Any:
+    last_exc: Exception = Exception("No retries configured or function failed without exception")
     for attempt in range(retries):
         try:
             return await fn(*args, **kwargs)

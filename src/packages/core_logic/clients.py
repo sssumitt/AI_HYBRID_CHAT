@@ -1,5 +1,6 @@
 # src/packages/core_logic/clients.py
 import asyncio
+from typing import Any
 from openai import AsyncOpenAI
 from pinecone import Pinecone, ServerlessSpec
 from neo4j import AsyncGraphDatabase, AsyncDriver
@@ -10,11 +11,11 @@ from packages.core_logic.config import *
 from packages.core_logic.utils import _close_if_callable
 
 # --- Global Client Variables ---
-aclient: AsyncOpenAI = None
-pc: Pinecone = None
-aredis: Redis = None
-index = None
-driver: AsyncDriver = None
+aclient: AsyncOpenAI | None = None
+pc: Pinecone | None = None
+aredis: Redis | None = None
+index: Any = None
+driver: AsyncDriver | None = None
 
 async def setup_clients():
     global aclient, pc, aredis, index, driver

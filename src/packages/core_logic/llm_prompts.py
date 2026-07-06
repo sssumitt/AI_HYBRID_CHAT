@@ -28,7 +28,9 @@ def create_summary_prompt_content(user_query: str, matches: List[Dict[str, Any]]
         "Concise Summary (in bullet points, using improved names where needed):"
     )
 
-def build_prompt_with_history(user_query: str, summary: str, history: List[Dict[str, str]] = None) -> List[Dict[str, str]]:
+from typing import List, Dict, Any, Optional
+
+def build_prompt_with_history(user_query: str, summary: str, history: Optional[List[Dict[str, str]]] = None) -> List[Dict[str, str]]:
     """
     Builds the final chat prompt, incorporating conversation history for context.
     """
